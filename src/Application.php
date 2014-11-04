@@ -29,6 +29,8 @@ class Application extends ConsoleApplication {
         $this->setDefaultTimezone();
 
         $this->add(new Command\WelcomeCommand);
+        $this->add(new Command\InitGlobalCommand);
+        $this->add(new Command\InitProjectCommand);
         $this->add(new Command\GerritProjectListCommand);
         $this->add(new Command\GerritChangesListCommand);
         $this->add(new Command\GerritChangeDetailsCommand);
