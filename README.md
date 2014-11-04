@@ -31,6 +31,7 @@ If not present, it will let you choose a change that is open.
 
 ## How to install
 Just run ```composer install```
+
 Then you can run ```gtools init:global``` or ```gtools init:project```
 Both commands will ask you to provide the Gerrit instance's URL, your username and password.
 
