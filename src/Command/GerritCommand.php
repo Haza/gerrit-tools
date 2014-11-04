@@ -16,18 +16,20 @@ class GerritCommand extends Command
   protected $client;
 
   /**
-   * Load configuration from the user's .platform file.
-   *
-   * Configuration is loaded only if $this->config hasn't been populated
-   * already. This allows LoginCommand to avoid writing the config file
-   * before using the client for the first time.
+   * Load configuration from the user's .gerrittools file.
    *
    * @return array The populated configuration array.
    */
   protected function loadConfig()
   {
     if (!$this->config) {
-        $configPath = $this->getHomeDirectory() . '/.gerrittools';
+        // Try to find a project config.
+        if ($projectRoot = $this->getProjectRoot()) {
+          $configPath = $projectRoot . '/.gerrittools';
+        }
+        else {
+          $configPath = $this->getHomeDirectory() . '/.gerrittools';
+        }
         $yaml = new Parser();
         $this->config = $yaml->parse(file_get_contents($configPath));
     }
@@ -108,6 +110,41 @@ class GerritCommand extends Command
       }
 
       return $home;
+  }
+
+
+  /**
+   * Find the root of the current project.
+   *
+   * The project root might contains a .gerrittools file.
+   * The current directory tree is traversed until the file is found, or
+   * the home directory is reached.
+   */
+  protected function getProjectRoot() {
+    $homeDir = $this->getHomeDirectory();
+    $currentDir = getcwd();
+    $projectRoot = NULL;
+    while (!$projectRoot) {
+      if (file_exists($currentDir . '/.gerrittools')) {
+        $projectRoot = $currentDir;
+        break;
+      }
+
+      // The file was not found, go one directory up.
+      $dirParts = explode('/', $currentDir);
+      array_pop($dirParts);
+      if (count($dirParts) == 0) {
+        // We've reached the end, stop.
+        break;
+      }
+      $currentDir = implode('/', $dirParts);
+      if ($currentDir == $homeDir) {
+        // We've reached the home directory, stop.
+        break;
+      }
+    }
+
+    return $projectRoot;
   }
 
   /**
