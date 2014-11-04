@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+// __DIR__ called in a class will point to the class directory. Saved now it
+// ensure there's always a path to the cli root.
+define('CLI_ROOT', __DIR__);
+
+if (file_exists(CLI_ROOT . '/vendor/autoload.php')) {
+    require CLI_ROOT . '/vendor/autoload.php';
+} else {
+    // we are globally installed via Composer
+    require CLI_ROOT . '/../../autoload.php';
+}
+
+use Gerrit\GerritTools\Cli\Application;;
+use Symfony\Component\Console\Input\ArgvInput;
+
+$input = new ArgvInput();
+$application = new Application();
+$application->run($input);
