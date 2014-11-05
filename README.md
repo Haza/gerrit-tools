@@ -31,13 +31,10 @@ If not present, it will let you choose a change that is open.
 
 ## How to install
 Just run ```composer install```
-You also need to manually fill a ```~/.gerrittools``` that contains the connection credentials : 
-example : 
-```
-gerrit_uri: http://domain.tld:port
-user: username
-pass: password
-```
-This will soon be improved.
+
+Then you can run ```gtools init:global``` or ```gtools init:project```
+Both commands will ask you to provide the Gerrit instance's URL, your username and password.
+
+When using gtools, it will first try to find a project level config file, then fallback on a global config file stores in the user home directory.
 
 For now, that's all folks !
