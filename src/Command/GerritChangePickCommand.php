@@ -42,6 +42,7 @@ class GerritChangePickCommand extends GerritCommand {
 
     if (!$this->isDowloadCommandsSupported()) {
       $output->writeln("Plugin 'Download Commands' not present on this Gerrit server");
+
       return;
     }
     $method = $input->getOption('method');
@@ -110,6 +111,7 @@ class GerritChangePickCommand extends GerritCommand {
         return TRUE;
       }
     }
+
     // Download commands not found :(
     return FALSE;
   }

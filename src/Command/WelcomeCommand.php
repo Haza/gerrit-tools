@@ -7,25 +7,23 @@ use Symfony\Component\Console\Output\OutputInterface;
 use GuzzleHttp\Message;
 use GuzzleHttp\Client;
 
-class WelcomeCommand extends GerritCommand
-{
+class WelcomeCommand extends GerritCommand {
 
-    protected function configure()
-    {
-        $this
-            ->setName('welcome')
-            ->setDescription('Welcome to GerritTools');
-    }
+  protected function configure() {
+    $this
+      ->setName('welcome')
+      ->setDescription('Welcome to GerritTools');
+  }
 
-    public function isEnabled() {
-        // Hide the command in the list.
-        global $argv;
-        return !isset($argv[1]) || $argv[1] != 'list';
-    }
+  public function isEnabled() {
+    // Hide the command in the list.
+    global $argv;
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-      $output->writeln("\n
+    return !isset($argv[1]) || $argv[1] != 'list';
+  }
+
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    $output->writeln("\n
    _____                _ _     _______          _
   / ____|              (_) |   |__   __|        | |
  | |  __  ___ _ __ _ __ _| |_     | | ___   ___ | |___
@@ -33,6 +31,6 @@ class WelcomeCommand extends GerritCommand
  | |__| |  __/ |  | |  | | |_     | | (_) | (_) | \__ \
   \_____|\___|_|  |_|  |_|\__|    |_|\___/ \___/|_|___/
       ");
-    }
+  }
 
 }

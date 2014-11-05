@@ -41,7 +41,7 @@ class InitProjectCommand extends GerritCommand {
     $configPath = $project_directory . '/.gerrittools';
     $dumper = new Dumper();
     file_put_contents($configPath, $dumper->dump($gerrit));
-    $output->writeln('Configuration has been written in '. $project_directory . '/.gerrittools');
+    $output->writeln('Configuration has been written in ' . $project_directory . '/.gerrittools');
   }
 
 }

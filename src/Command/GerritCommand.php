@@ -10,8 +10,7 @@ use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-class GerritCommand extends Command
-{
+class GerritCommand extends Command {
   protected $config;
   protected $client;
 
@@ -20,18 +19,17 @@ class GerritCommand extends Command
    *
    * @return array The populated configuration array.
    */
-  protected function loadConfig()
-  {
+  protected function loadConfig() {
     if (!$this->config) {
-        // Try to find a project config.
-        if ($projectRoot = $this->getProjectRoot()) {
-          $configPath = $projectRoot . '/.gerrittools';
-        }
-        else {
-          $configPath = $this->getHomeDirectory() . '/.gerrittools';
-        }
-        $yaml = new Parser();
-        $this->config = $yaml->parse(file_get_contents($configPath));
+      // Try to find a project config.
+      if ($projectRoot = $this->getProjectRoot()) {
+        $configPath = $projectRoot . '/.gerrittools';
+      }
+      else {
+        $configPath = $this->getHomeDirectory() . '/.gerrittools';
+      }
+      $yaml = new Parser();
+      $this->config = $yaml->parse(file_get_contents($configPath));
     }
 
     return $this->config;
@@ -42,29 +40,29 @@ class GerritCommand extends Command
    *
    * @return Client
    */
-  protected function getClient()
-  {
+  protected function getClient() {
 
     $config = $this->loadConfig();
     $user = $config['user'];
     $pass = $config['pass'];
     $gerrit_uri = $config['gerrit_uri'];
-      if (!$this->client) {
-          $this->client = new Client(['base_url' => $gerrit_uri . '/a']);
-          $this->client->setDefaultOption('auth', array(
-              $user,
-              $pass,
-              'Digest'));
-          $this->client->setDefaultOption('verify', FALSE);
-      }
+    if (!$this->client) {
+      $this->client = new Client(['base_url' => $gerrit_uri . '/a']);
+      $this->client->setDefaultOption('auth', array(
+        $user,
+        $pass,
+        'Digest'
+      ));
+      $this->client->setDefaultOption('verify', FALSE);
+    }
 
-      return $this->client;
+    return $this->client;
   }
 
   /**
    * Run a shell command in the current directory.
    *
-   * @param string $cmd    The command.
+   * @param string $cmd The command.
    *
    * @throws \Exception
    *
@@ -86,30 +84,28 @@ class GerritCommand extends Command
   /**
    * Destructor: Write the configuration to disk.
    */
-  public function __destruct()
-  {
-      if (is_array($this->config)) {
+  public function __destruct() {
+    if (is_array($this->config)) {
 
-          $configPath = $this->getHomeDirectory() . '/.gerrittools';
-          $dumper = new Dumper();
-          file_put_contents($configPath, $dumper->dump($this->config));
-      }
+      $configPath = $this->getHomeDirectory() . '/.gerrittools';
+      $dumper = new Dumper();
+      file_put_contents($configPath, $dumper->dump($this->config));
+    }
   }
 
   /**
    * @return string The absolute path to the user's home directory.
    */
-  public function getHomeDirectory()
-  {
-      $home = getenv('HOME');
-      if (empty($home)) {
-          // Windows compatibility.
-          if (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
-              $home = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
-          }
+  public function getHomeDirectory() {
+    $home = getenv('HOME');
+    if (empty($home)) {
+      // Windows compatibility.
+      if (!empty($_SERVER['HOMEDRIVE']) && !empty($_SERVER['HOMEPATH'])) {
+        $home = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
       }
+    }
 
-      return $home;
+    return $home;
   }
 
 
@@ -160,6 +156,7 @@ class GerritCommand extends Command
     if (substr($malformattedJson, 0, 4) === ")]}'") {
       return substr((string) $malformattedJson, 4);
     }
+
     return $malformattedJson;
   }
 

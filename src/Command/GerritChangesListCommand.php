@@ -29,7 +29,12 @@ class GerritChangesListCommand extends GerritCommand {
     $table->setHeaders(array('_number', 'subject', 'project', 'branch', '+/-'));
     foreach ($changes as $change) {
       $rows[] = array(
-      $change->_number, $change->subject, $change->project ,$change->branch, '+' . $change->insertions . '/-' . $change->deletions);
+        $change->_number,
+        $change->subject,
+        $change->project,
+        $change->branch,
+        '+' . $change->insertions . '/-' . $change->deletions
+      );
     }
     $table->setRows($rows);
     $table->render($output);

@@ -35,7 +35,7 @@ class InitGlobalCommand extends GerritCommand {
     $configPath = $this->getHomeDirectory() . '/.gerrittools';
     $dumper = new Dumper();
     file_put_contents($configPath, $dumper->dump($gerrit));
-    $output->writeln('Configuration has been written in '. $this->getHomeDirectory() . '/.gerrittools');
+    $output->writeln('Configuration has been written in ' . $this->getHomeDirectory() . '/.gerrittools');
   }
 
 }

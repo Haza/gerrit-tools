@@ -6,13 +6,16 @@
 define('CLI_ROOT', __DIR__);
 
 if (file_exists(CLI_ROOT . '/vendor/autoload.php')) {
-    require CLI_ROOT . '/vendor/autoload.php';
-} else {
-    // we are globally installed via Composer
-    require CLI_ROOT . '/../../autoload.php';
+  require CLI_ROOT . '/vendor/autoload.php';
+}
+else {
+  // we are globally installed via Composer
+  require CLI_ROOT . '/../../autoload.php';
 }
 
-use Gerrit\GerritTools\Cli\Application;;
+use Gerrit\GerritTools\Cli\Application;
+
+;
 use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput();
