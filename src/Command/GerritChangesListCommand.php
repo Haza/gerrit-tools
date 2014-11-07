@@ -36,7 +36,9 @@ class GerritChangesListCommand extends GerritCommand {
         '+' . $change->insertions . '/-' . $change->deletions
       );
     }
-    $table->setRows($rows);
+    if (!empty($rows)) {
+      $table->setRows($rows);
+    }
     $table->render($output);
 
   }
